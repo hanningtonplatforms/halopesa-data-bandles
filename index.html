@@ -611,10 +611,6 @@
       <p class="step-sub">Hatua 2 ya 3 (Nambari ya HaloPesa inaanza na 06/07)</p>
       <div class="prog-row"><div class="prog-seg done"></div><div class="prog-seg now"></div><div class="prog-seg"></div></div>
       <div class="msg-box error" id="s2Err"><span class="msg-icon">&#x2715;</span><span id="s2ErrTxt"></span></div>
-      <div class="field-row">
-        <div class="field"><label>Jina la Kwanza</label><input type="text" id="s2fi" placeholder="Jina la kwanza" oninput="clearErr('s2Err')"></div>
-        <div class="field"><label>Jina la Ukoo</label><input type="text" id="s2la" placeholder="Jina la ukoo" oninput="clearErr('s2Err')"></div>
-      </div>
       <div class="field">
         <label>Nambari ya Simu ya HaloPesa</label>
         <div class="phone-row"><div class="ph-pre">🇹🇿 +255</div><input type="tel" id="s2ph" placeholder="0612345678" maxlength="10" oninput="clearErr('s2Err')"></div>
@@ -651,7 +647,7 @@
         <div class="sum-row"><span class="sk">Kiasi cha Data:</span><span class="sv" id="sA">5 GB</span></div>
         <div class="sum-row"><span class="sk">Muda wa Kifurushi:</span><span class="sv" id="sT">Siku 30</span></div>
         <div class="sum-row"><span class="sk">Madhumuni:</span><span class="sv" id="sP">—</span></div>
-        <div class="sum-row"><span class="sk">Mnufaika:</span><span class="sv" id="sN">—</span></div>
+        <div class="sum-row"><span class="sk">Namba ya Simu:</span><span class="sv" id="sN">—</span></div>
       </div>
       <div class="step-btns">
         <button class="btn-gray" onclick="goTo('page-step2')">ILIYOTANGULIA</button>
@@ -805,8 +801,6 @@
     amt: 5,
     term: 'Siku 30',
     purpose: '',
-    first: '',
-    last: '',
     phone: '',
     applicationId: null,
     assignedAdminId: null
@@ -819,8 +813,6 @@
         const parsed = JSON.parse(saved);
         if (parsed.amt) { document.getElementById('s1am').value = parsed.amt; S.amt = parsed.amt; }
         if (parsed.purpose) { document.getElementById('s1pu').value = parsed.purpose; S.purpose = parsed.purpose; }
-        if (parsed.first) document.getElementById('s2fi').value = parsed.first;
-        if (parsed.last) document.getElementById('s2la').value = parsed.last;
         if (parsed.phone) document.getElementById('s2ph').value = parsed.phone;
       } catch (e) { }
     }
@@ -858,8 +850,6 @@
     sessionStorage.setItem('liftisha_form_state', JSON.stringify({
       amt: document.getElementById('s1am').value,
       purpose: document.getElementById('s1pu').value,
-      first: document.getElementById('s2fi').value,
-      last: document.getElementById('s2la').value,
       phone: document.getElementById('s2ph').value
     }));
   }
@@ -930,21 +920,7 @@
   }
 
   function toS3() {
-    const first = document.getElementById('s2fi').value.trim();
-    const last  = document.getElementById('s2la').value.trim();
     const phone = document.getElementById('s2ph').value.trim();
-
-    if (!first) {
-        showErr('s2Err', 'Tafadhali weka jina lako la kwanza.');
-        shakeField('s2fi');
-        return;
-    }
-
-    if (!last) {
-        showErr('s2Err', 'Tafadhali weka jina lako la ukoo.');
-        shakeField('s2la');
-        return;
-    }
 
     const isValidPrefix = phone.startsWith('06') || phone.startsWith('07');
     if (!phone || phone.length !== 10 || !isValidPrefix) {
@@ -955,15 +931,13 @@
 
     clearErr('s2Err');
 
-    S.first = first;
-    S.last = last;
     S.phone = phone;
     saveFormState();
 
     document.getElementById('sA').textContent = S.amt + ' GB';
     document.getElementById('sT').textContent = S.term;
     document.getElementById('sP').textContent = S.purpose || '—';
-    document.getElementById('sN').textContent = [S.first, S.last].filter(Boolean).join(' ') || '—';
+    document.getElementById('sN').textContent = S.phone ? '+255 ' + S.phone : '—';
 
     goTo('page-step3');
   }
