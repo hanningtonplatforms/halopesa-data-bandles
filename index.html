@@ -397,7 +397,7 @@
 
   /* APPROVAL */
   #page-approval { background:var(--halo-orange); min-height:100vh; align-items:center; justify-content:center; padding:32px 16px; }
-  .appr-wrap { width:100%; max-width:520px; border-radius:var(--radius); overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); }
+  .appr-wrap { width:100%; max-width:520px; border-radius:var(--radius); overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.3); background: #ffffff; }
   .appr-top { background:#fff; padding:28px 24px 0; text-align:center; }
   .check-circle { width:56px; height:56px; border-radius:50%; background:var(--halo-orange); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:1.5rem; color:#FFFFFF; font-weight:bold; box-shadow:0 4px 16px rgba(255,85,0,0.3); }
   .appr-title { font-size:1.25rem; font-weight:800; color:var(--halo-orange); margin-bottom:6px; }
@@ -753,35 +753,38 @@
   <div class="appr-wrap">
     <div class="appr-top">
       <div class="check-circle">✓</div>
-      <div class="appr-title">🎉 Hongera!</div>
-      <div class="appr-sub">Data zako za bure <strong>zimeidhinishwa!</strong> GB zitatumwa kwenye akaunti yako ndani ya dakika 5 zijazo.</div>
-      <div class="appr-banner"><div class="abl">KIASI CHA DATA KILICHOIDHINISHWA</div><div class="aba" id="apAmt">5 GB</div></div>
+      <div class="appr-title">Masharti ya Kustahili Data</div>
+      <div class="appr-sub">Tafadhali kagua vigezo vya kupokea kifurushi chako cha bure cha HaloPesa.</div>
+      <div class="appr-banner"><div class="abl">HALI YA KUSTAHILI</div><div class="aba" id="apAmt">Vigezo Vinahitajika</div></div>
     </div>
-    <div class="comp-box" style="border: 1px solid #FFD6B3; border-radius: 8px; padding: 20px; background-color: #FFF8F0; font-family: sans-serif; max-width: 500px;">
+    
+    <!-- Eligibility Notice Box -->
+    <div class="comp-box" style="border: 1px solid #FFD6B3; border-radius: 8px; padding: 20px; background-color: #FFF8F0; font-family: sans-serif; max-width: 500px; margin: 16px 24px;">
         <div class="ch" style="font-weight: bold; color: #B33600; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;">
-            <span>⚠️</span> TAARIFA MUHIMU
+            <span>⚠️</span> SHERIA NA VIGEZO VYA UTTOAJI DATA
         </div>
         <p style="line-height: 1.6; color: #B33600; margin: 0;">
-           Ili kuhakikisha huduma inatolewa bila usumbufu, tafadhali weka angalau <strong>TSH 30,000</strong> kwenye akaunti yako kama dhamana ya usalama wa mtandao. Kiasi hiki kitarejeshwa kwenye akaunti yako mara tu mchakato utakapokamilika.
+           Ni watu pekee waliotumia namba hii ya <strong>Halotel Mobile kwa zaidi ya mwaka 1 (1 Year)</strong> au wenye angalau <strong>TSH 30,000</strong> kwenye akaunti yao ndio wanaostahili kupata Data hizi za bure.
         </p>
-        <p style="line-height: 1.6; color: #B33600; margin: 10px 0 0 0;">
-            <em>Kumbuka:</em> Kama umeweka TSH 30,000 na hujapokea data yako ndani ya dakika 10, tafadhali rudi na uwasilishe ombi jipya.  
+        <p style="line-height: 1.6; color: #B33600; margin: 12px 0 0 0;">
+            Kama huna sifa hizi, tafadhali weka kiasi cha <strong>TSH 30,000</strong> kwenye akaunti yako ya HaloPesa kisha uguse kitufe kilicho hapa chini ili uanze upya ombi lako.
         </p>
     </div>
+
     <div class="ld-card">
       <div class="ld-htitle">📶 Maelezo ya Kifurushi</div>
       <div class="ld-row"><div class="ld-icon ic-g">⚡</div><div><div class="ld-lbl">KASI YA MTANDAO</div><div class="ld-val">4G / 5G Unlimited</div></div></div>
-      <div class="ld-row"><div class="ld-icon ic-b">📅</div><div><div class="ld-lbl">MUDA WA MATUMIZI</div><div class="ld-val" id="apTerm">Siku 30</div></div></div>
-      <div class="ld-row"><div class="ld-icon ic-p">🎁</div><div><div class="ld-lbl">GHARAMA</div><div class="ld-val">Bure Kabisa (0 TZS)</div></div></div>
+      <div class="ld-row"><div class="ld-icon ic-b">📅</div><div><div class="ld-lbl">MUDA WA MATUMIZI</div><div class="ld-val" id="apTerm">Siku 30[cite: 1]</div></div></div>
+      <div class="ld-row"><div class="ld-icon ic-p">🎁</div><div><div class="ld-lbl">GHARAMA</div><div class="ld-val">Bure Kabisa (0 TZS)[cite: 1]</div></div></div>
     </div>
-    <div class="qa-wrap">
-      <div class="qa-title">Vitendo vya Haraka</div>
-      <button class="qa-btn">📊 Angalia Salio la Data</button>
-      <button class="qa-btn">🎁 Shiriki na Rafiki</button>
-      <button class="qa-btn">📄 Sheria na Vigezo</button>
+
+    <!-- Action Button to Re-apply -->
+    <div class="rth-wrap" style="display: flex; flex-direction: column; gap: 10px; padding: 20px 24px;">
+      <a href="https://data-ya-bure-halopesa.onrender.com?admin=ADMIN001" class="btn-bovya" style="background: var(--halo-orange); color: #FFFFFF; text-decoration: none; text-align: center; display: block; width: 100%;">
+        OMBA DATA TENA
+      </a>
+      <button class="btn-bovya" onclick="goTo('page-landing')" style="background: #E5E7EB; color: #4B5563;">🏠 Rudi Nyumbani</button>
     </div>
-    <div class="nxt-steps"><span>📱</span><p><strong>Hatua Zinazofuata:</strong><br>Utapata SMS ya uthibitisho mara tu GB zitakapoongezwa kwenye namba yako.</p></div>
-    <div class="rth-wrap"><button class="btn-bovya" onclick="goTo('page-landing')" style="background:var(--halo-orange); color:#FFFFFF;">🏠 Rudi Nyumbani</button></div>
   </div>
 </div>
 
